@@ -31,12 +31,7 @@ export class GildedRose {
       } else {
         this._upgradeQualityIfPossible(this.items[i]);
         if (this.items[i].name == BACKSTAGEPASSES) {
-          if (this.items[i].sellIn < 11) {
-            this._upgradeQualityIfPossible(this.items[i]);
-          }
-          if (this.items[i].sellIn < 6) {
-            this._upgradeQualityIfPossible(this.items[i]);
-          }
+          this._updateBackstagePasses(this.items[i]);
         }
       }
       if (this.items[i].name != SULFURAS) {
@@ -74,6 +69,11 @@ export class GildedRose {
 
   private _downgradeSellIn(item: Item) {
     item.sellIn -= 1;
+  }
+
+  _updateBackstagePasses(item) {
+    if (item.sellIn < 11) this._upgradeQualityIfPossible(item);
+    if (item.sellIn < 6) this._upgradeQualityIfPossible(item);
   }
 }
 
