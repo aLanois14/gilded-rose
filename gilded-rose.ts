@@ -73,19 +73,19 @@ export class GildedRose {
   }
 
   private _upgradeQuality(item: Item) {
-    item.quality = item.quality + 1;
+    item.quality += 1;
   }
 
   private _downgradeQuality(item: Item) {
-    item.quality = item.quality - 1;
+    item.quality -= 1;
   }
 
   private _resetQuality(item: Item) {
-    item.quality = item.quality - item.quality;
+    item.quality = 0;
   }
 
   private _downgradeSellIn(item: Item) {
-    item.sellIn = item.sellIn - 1;
+    item.sellIn -= 1;
   }
 }
 
