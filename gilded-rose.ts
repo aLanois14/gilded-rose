@@ -34,9 +34,9 @@ export class GildedRose {
           this._updateBackstagePasses(this.items[i]);
         }
       }
-      if (this.items[i].name != SULFURAS) {
-        this._downgradeSellIn(this.items[i]);
-      }
+
+      this._downgradeSellIn(this.items[i]);
+
       if (this.items[i].sellIn < 0) {
         if (this.items[i].name != AGEDBRIE) {
           if (this.items[i].name != BACKSTAGEPASSES) {
@@ -68,7 +68,7 @@ export class GildedRose {
   }
 
   private _downgradeSellIn(item: Item) {
-    item.sellIn -= 1;
+    if (item.name != SULFURAS) item.sellIn -= 1;
   }
 
   _updateBackstagePasses(item) {
