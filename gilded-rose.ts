@@ -20,32 +20,30 @@ export class GildedRose {
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i];
+
       if (item.name === SULFURAS) continue;
 
-      if (item.name != AGEDBRIE && item.name != BACKSTAGEPASSES) {
-        if (item.name != SULFURAS) {
-          this._downgradeQualityIfPossible(item);
-        }
-      } else {
+      const isAgedBrie = item.name === AGEDBRIE;
+      const isBackstagePasses = item.name === BACKSTAGEPASSES;
+
+      if (isAgedBrie) {
         this._upgradeQualityIfPossible(item);
-        if (item.name == BACKSTAGEPASSES) {
-          this._updateBackstagePasses(item);
-        }
+      } else if (isBackstagePasses) {
+        this._upgradeQualityIfPossible(item);
+        this._updateBackstagePasses(item);
+      } else {
+        this._downgradeQualityIfPossible(item);
       }
 
       this._downgradeSellIn(item);
 
       if (item.sellIn < 0) {
-        if (item.name != AGEDBRIE) {
-          if (item.name != BACKSTAGEPASSES) {
-            if (item.name != SULFURAS) {
-              this._downgradeQualityIfPossible(item);
-            }
-          } else {
-            this._resetQuality(item);
-          }
-        } else {
+        if (isAgedBrie) {
           this._upgradeQualityIfPossible(item);
+        } else if (isBackstagePasses) {
+          this._resetQuality(item);
+        } else {
+          this._downgradeQualityIfPossible(item);
         }
       }
     }
