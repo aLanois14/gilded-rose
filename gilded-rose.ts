@@ -25,25 +25,17 @@ export class GildedRose {
         this.items[i].name != AGEDBRIE &&
         this.items[i].name != BACKSTAGEPASSES
       ) {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].name != SULFURAS) {
-            this._downgradeQuality(this.items[i]);
-          }
+        if (this.items[i].name != SULFURAS) {
+          this._downgradeQualityIfPossible(this.items[i]);
         }
       } else {
-        if (this.items[i].quality < 50) {
-          this._upgradeQuality(this.items[i]);
-          if (this.items[i].name == BACKSTAGEPASSES) {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this._upgradeQuality(this.items[i]);
-              }
-            }
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this._upgradeQuality(this.items[i]);
-              }
-            }
+        this._upgradeQualityIfPossible(this.items[i]);
+        if (this.items[i].name == BACKSTAGEPASSES) {
+          if (this.items[i].sellIn < 11) {
+            this._upgradeQualityIfPossible(this.items[i]);
+          }
+          if (this.items[i].sellIn < 6) {
+            this._upgradeQualityIfPossible(this.items[i]);
           }
         }
       }
@@ -53,18 +45,14 @@ export class GildedRose {
       if (this.items[i].sellIn < 0) {
         if (this.items[i].name != AGEDBRIE) {
           if (this.items[i].name != BACKSTAGEPASSES) {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].name != SULFURAS) {
-                this._downgradeQuality(this.items[i]);
-              }
+            if (this.items[i].name != SULFURAS) {
+              this._downgradeQualityIfPossible(this.items[i]);
             }
           } else {
             this._resetQuality(this.items[i]);
           }
         } else {
-          if (this.items[i].quality < 50) {
-            this._upgradeQuality(this.items[i]);
-          }
+          this._upgradeQualityIfPossible(this.items[i]);
         }
       }
     }
@@ -72,12 +60,12 @@ export class GildedRose {
     return this.items;
   }
 
-  private _upgradeQuality(item: Item) {
-    item.quality += 1;
+  private _upgradeQualityIfPossible(item: Item) {
+    if (item.quality < 50) item.quality += 1;
   }
 
-  private _downgradeQuality(item: Item) {
-    item.quality -= 1;
+  private _downgradeQualityIfPossible(item: Item) {
+    if (item.quality > 0) item.quality -= 1;
   }
 
   private _resetQuality(item: Item) {
