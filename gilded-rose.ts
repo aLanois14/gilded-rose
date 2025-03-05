@@ -19,31 +19,35 @@ export class GildedRose {
 
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].name !== SULFURAS) {
-        if (
-          this.items[i].name != AGEDBRIE &&
-          this.items[i].name != BACKSTAGEPASSES
-        ) {
+      if (this.items[i].name === SULFURAS) continue;
+
+      if (
+        this.items[i].name != AGEDBRIE &&
+        this.items[i].name != BACKSTAGEPASSES
+      ) {
+        if (this.items[i].name != SULFURAS) {
           this._downgradeQualityIfPossible(this.items[i]);
-        } else {
-          this._upgradeQualityIfPossible(this.items[i]);
-          if (this.items[i].name == BACKSTAGEPASSES) {
-            this._updateBackstagePasses(this.items[i]);
-          }
         }
+      } else {
+        this._upgradeQualityIfPossible(this.items[i]);
+        if (this.items[i].name == BACKSTAGEPASSES) {
+          this._updateBackstagePasses(this.items[i]);
+        }
+      }
 
-        this.items[i];
+      this._downgradeSellIn(this.items[i]);
 
-        if (this.items[i].sellIn < 0) {
-          if (this.items[i].name != AGEDBRIE) {
-            if (this.items[i].name != BACKSTAGEPASSES) {
+      if (this.items[i].sellIn < 0) {
+        if (this.items[i].name != AGEDBRIE) {
+          if (this.items[i].name != BACKSTAGEPASSES) {
+            if (this.items[i].name != SULFURAS) {
               this._downgradeQualityIfPossible(this.items[i]);
-            } else {
-              this._resetQuality(this.items[i]);
             }
           } else {
-            this._upgradeQualityIfPossible(this.items[i]);
+            this._resetQuality(this.items[i]);
           }
+        } else {
+          this._upgradeQualityIfPossible(this.items[i]);
         }
       }
     }
@@ -61,6 +65,10 @@ export class GildedRose {
 
   private _resetQuality(item: Item) {
     item.quality = 0;
+  }
+
+  private _downgradeSellIn(item: Item) {
+    if (item.name != SULFURAS) item.sellIn -= 1;
   }
 
   _updateBackstagePasses(item) {
